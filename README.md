@@ -13,26 +13,31 @@ sudo gem install aml
 ```
 
 ## Usage:
-There are two ways to run Abstract Markup Language from the command-line; the first is to simply build a file:
+There are many ways to run Abstract Markup Language from the command-line; the most common case is to simply build a file:
 
 ```shell
 aml --build path/to/file.aml
 ```
 
-The other is to watch and build the file on changes: 
+You can type the --help argument by itself or with other arguments:
 
 ```shell
-aml --watch path/to/file.aml
+aml --help
+```
+```shell
+aml --build path/to/file.aml --help
 ```
 
 ### Optional command-line arguments:
 
- - fileExtension
-   - The file extension used for the build, default value of: _**html**_
+ - extension
+   - Output file extension, default value of: _**html**_
      
      ```shell
-     aml --build path/to/file.aml --fileExtension html
+     aml --build path/to/file.aml --extension html
      ```
+ - selfclosing
+   - Use default definition of self closing tags, default value of: _**true**_
 
 ## Contributing:
 
