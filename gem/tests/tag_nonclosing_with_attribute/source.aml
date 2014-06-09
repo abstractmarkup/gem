@@ -1,0 +1,1 @@
+%//nonclosing{:attribute=>'value',:nested=>{:value=>'Hello World',:foo=>{:bar=>'Hello World'}}}

@@ -1,0 +1,8 @@
+%%mixin(:attribute=>'value',:foo=>'bar'){
+	%ul
+		%li @(:attribute)
+		%li
+			%ul
+				%li{:foobar=>'@(:foo)'} text
+}
+%(mixin)

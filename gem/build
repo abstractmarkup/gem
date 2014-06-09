@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+require "rubygems"
+gemspec = "aml.gemspec"
+spec = Gem::Specification::load("#{gemspec}")
+exec("gem build #{gemspec} && sudo gem install aml-#{spec.version}.gem && rm aml-#{spec.version}.gem")

@@ -1,0 +1,5 @@
+%(~header)
+		%div#id.class1
+			%div.class1.class2
+				%div.class#id text
+		%(~footer)

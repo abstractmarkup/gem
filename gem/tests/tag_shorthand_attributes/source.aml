@@ -1,0 +1,7 @@
+%tag.class1
+%tag.class1.class2
+%tag#id
+%tag#id.class1
+%tag#id.class1.class2
+%tag.class1#id
+%tag.class1.class2#id

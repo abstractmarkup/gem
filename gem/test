@@ -1,0 +1,32 @@
+#!/usr/bin/env ruby
+path = "gem/tests/"
+test = []
+fail = []
+Dir.new(path).each do |name|
+	test << name if name[0] != "."
+end
+puts ""
+puts "Running #{"%02d" % test.count} Test#{test.count == 1 ? '':'s'}:"
+puts ""
+test.each_with_index do |name,index|
+	index+=1
+	puts "#{"%02d" % index}: #{name}"
+	build = `aml --build #{path}/#{name}/source.aml`
+	md5result = `md5 -q #{path}/#{name}/result.html`
+	md5source = `md5 -q #{path}/#{name}/source.html`
+	md5match =  md5result == md5source ? true : false
+	fail << {:name=>name,:md5source=>md5source,:md5result=>md5result} if !md5match
+	puts "#{md5match ? 'Pass': 'Fail'}: #{build.to_s}"
+	puts ""
+end
+puts "- - - - -"
+puts ""
+if fail.count > 0
+	puts "#{"%02d" % fail.count} Test#{fail.count == 1 ? '':'s'} Failed:"
+	fail.each do |test|
+		puts "- #{test[:name]}"
+	end
+else
+	puts "All Tests Passed!"
+end
+puts ""

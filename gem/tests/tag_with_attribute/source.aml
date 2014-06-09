@@ -1,0 +1,1 @@
+%tag{:attribute=>'value',:nested=>{:attribute=>'value',:foo=>{:bar=>'value'}}}

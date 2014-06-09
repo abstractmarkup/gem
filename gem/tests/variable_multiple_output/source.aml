@@ -1,0 +1,4 @@
+@variable = value 1
+@(variable)
+@variable = value 2
+@(variable)

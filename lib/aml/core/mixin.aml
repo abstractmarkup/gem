@@ -1,0 +1,71 @@
+%!-- VARIABLES --%
+
+@aml = Abstract Markup Language
+
+%!-- DOCTYPES ---%
+
+%%html5-{
+	<!DOCTYPE html>
+}
+%%html5(:this=>'this',:that=>'that'){
+	%(.html5-)
+	%html
+}
+%%html401s-{
+	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+}
+%%html401s{
+	%(.html401s-)
+	%html
+}
+%%html401t-{
+	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+}
+%%html401t{
+	%(.html401t-)
+	%html
+}
+%%html401f-{
+	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
+}
+%%html401f{
+	%(.html401f-)
+	%html
+}
+%%xhtml1s-{
+	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+}
+%%xhtml1s{
+	%(.xhtml1s-)
+	%html
+}
+%%xhtml1t-{
+	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+}
+%%xhtml1t{
+	%(.xhtml1t-)
+	%html
+}
+%%xhtml1f-{
+	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+}
+%%xhtml1f{
+	%(.xhtml1f-)
+	%html
+}
+%%xhtml11-{
+	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+}
+%%xhtml11{
+	%(.xhtml11-)
+	%html
+}
+
+%!-- HELPERS ---%
+
+%%css(:href=>'', :media=>'screen'){
+	%/link{:href=>'@(:href)', :media=>'@(:media)', :rel=>'stylesheet'}
+}
+%%js(:src=>''){
+	%script{:type=>'text/javascript', :src=>'@(:src)'}
+}
