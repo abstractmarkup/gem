@@ -1,7 +1,7 @@
 class Build
 	require "aml/Argument"
 	require "aml/Compile"
-
+	
 	@@structure = []
 	@@selfClosing = []
 
@@ -126,24 +126,22 @@ class Build
 	end
 
 	def tag_line_attributes(line,base="")
-		if line[:type] == :tag
-			attributes = hash_to_attribute_build(line[:attribute],"",line)
-			attributes = " #{attributes}" if(attributes.length > 0)
-		end
+		attributes = hash_to_attribute_build(line[:attribute],"").strip
+		attributes = ' ' + attributes if(attributes.length > 0)
 	end
 
-	def hash_to_attribute_build(hash,base="",line)
+	def hash_to_attribute_build(hash,base="")
 		hash = hash.sort_by{|key, value| key}
 		string = ""
 		hash.each do |key, value|
 			if(value.is_a?(Hash))
 				value.sort_by{|key, value| key}
-				string << "#{hash_to_attribute_build(value,"#{base}#{key}-",line)} "
+				string << hash_to_attribute_build(value,"#{base}#{key}-")
 			else
 				string << "#{base}#{key}=\"#{value}\" " if value.to_s.length > 0
 			end
 		end
-		string.strip
+		string
 	end
 
 	def prepare_structure(struct,index=0,pstruct={:line=>false,:children=>[]})

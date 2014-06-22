@@ -1,0 +1,12 @@
+%pre*{:this=>'value'}
+	hello
+	this is a test
+		hello
+	this is a test
+
+%div
+	#code*
+		hello
+		this is a test
+			hello
+		this is a test

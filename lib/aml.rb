@@ -1,4 +1,5 @@
 # Entry Point for Abstract Markup Language
+require "awesome_print"
 class AbstractMarkupLanguage
 	require "aml/Build"
 	def initialize(argument)

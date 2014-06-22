@@ -13,7 +13,7 @@ class Definition
 		begin
 			parse = Parse.new(bundle)
 			# Remove Comment Line(s)
-			File.open(file).read.gsub(/%!--[^%]*--%$/,'').each_line do |line|
+			File.open(file).read.gsub(/%!--[^%]*--%$|[^%]\/\/.*$/,'').each_line do |line|
 				number+=1
 				# Remove Empty Lines
 				add_line(parse.line(line,number))

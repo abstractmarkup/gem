@@ -39,11 +39,12 @@ class Line
 			line[:bundle] = 'core' if line[:bundle] == false
 		end
 		# class
-		if line.key? :class
+		if line.key? :class and line[:class].length > 0
 			line[:class] = '.' + line[:class]
 			line[:attribute][:class] = line[:class].split('.').join(' ').strip!
 			line.delete(:class)
 		end
+		
 		# close 
 		line[:close] = %w(tag self none)[line[:close].to_s.length].to_sym if line.key? :close
 		# id
@@ -67,7 +68,7 @@ class Line
 		if string != nil
 			string.scan(regex){|match|
 				thisHash = Hash[names.zip(match)]
-				if thisHash["hash"].to_s[0] == "{"
+				if thisHash["hash"].to_s.strip[0] == '{'
 					hash[thisHash["name"].to_sym] = recursive_string_to_hash(thisHash["hash"])
 				else
 					hash[thisHash["name"].to_sym] = thisHash["value"].to_s.strip

@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name          = 'aml'
-  s.version       = '0.1.2'
+  s.version       = '0.1.3'
   s.date          = Time.new.strftime('%Y-%m-%d')
   s.summary       = "Abstract Markup Language"
   s.description   = "Abstract Markup Language is a robust and feature rich markup language designed to avoid repetition and promote clear, well-indented markup."

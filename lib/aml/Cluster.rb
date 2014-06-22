@@ -68,6 +68,19 @@ class Cluster
 		definition.self[:hash] = process_conditional_block(definition, _get_conditionals(definition.self[:hash]), definition.self[:hash], 'loop')
 		definition.self[:hash] = process_conditional_block(definition, _get_conditionals(definition.self[:hash]), definition.self[:hash], 'if')
 	end
+
+	def recursive_attribute_replace(attributes,find,replace)
+		attributes.each do |attribute, value|
+			if value.is_a? Hash
+				value = recursive_attribute_replace(value,find,replace)
+			else
+				value = value.to_s.gsub(find,replace)
+			end
+			attributes[attribute] = value
+		end
+		attributes
+	end
+
 	# Process Conditional Block
 	def process_conditional_block(definition, conditionals, lines, type)
 		conditional = conditionals.select{|k|k[:name].downcase == type}.sort_by{|k|k[:index]}.reverse
@@ -83,28 +96,33 @@ class Cluster
 						loop_line = Marshal.load(Marshal.dump(lines.select{|k|k[:c_index] > conditional[:c_index] and k[:c_index] < conditional[:end][:c_index]}))
 						loop_line.each do |line|
 							line[:index] = line[:index]-1
-							line[:text] = line[:text].gsub(/@@/,value) if line[:text] != nil
-							line[:value] = line[:value].gsub(/@@/,value) if line[:value] != nil
+							[:text,:value].each do |name|
+								line[name] = line[name].gsub(/@\(\:index\)/, value) if line[name] != nil
+								line[name] = line[name].gsub(/@\(\:zero\-index\)/, ((value.to_i)-1).to_s) if line[name] != nil
+							end
 							if line[:attribute] != nil
-								line[:attribute].each do |attribute|
-									line[:attribute][attribute[0]] = attribute[1].gsub(/@@/,value) if attribute[1] != nil
-								end
+								line[:attribute] = recursive_attribute_replace(line[:attribute],/@\(\:index\)/, value)
+								line[:attribute] = recursive_attribute_replace(line[:attribute],/@\(\:zero\-index\)/, ((value.to_i)-1).to_s)
 							end
 							conditional_lines << line
 						end
 					end
 				else
-					conditional[:value].split(',').each do |value|
+					conditional[:value].split(',').each_with_index do |value, index|
 						value = value.strip
+						index = index
 						loop_line = Marshal.load(Marshal.dump(lines.select{|k|k[:c_index] > conditional[:c_index] and k[:c_index] < conditional[:end][:c_index]}))
 						loop_line.each do |line|
 							line[:index] = line[:index]-1
-							line[:text] = line[:text].gsub(/@@/,value) if line[:text] != nil
-							line[:value] = line[:value].gsub(/@@/,value) if line[:value] != nil
+							[:text,:value].each do |name|
+								line[name] = line[name].gsub(/@\(\:value\-index\)/, value) if line[name] != nil
+								line[name] = line[name].gsub(/@\(\:index\)/, (index+1).to_s) if line[name] != nil
+								line[name] = line[name].gsub(/@\(\:zero\-index\)/, index.to_s) if line[name] != nil
+							end
 							if line[:attribute] != nil
-								line[:attribute].each do |attribute|
-									line[:attribute][attribute[0]] = attribute[1].gsub(/@@/,value) if attribute[1] != nil
-								end
+								line[:attribute] = recursive_attribute_replace(line[:attribute],/@\(\:value\-index\)/, value)
+								line[:attribute] = recursive_attribute_replace(line[:attribute],/@\(\:index\)/, (index+1).to_s)
+								line[:attribute] = recursive_attribute_replace(line[:attribute],/@\(\:zero\-index\)/, index.to_s)
 							end
 							conditional_lines << line
 						end

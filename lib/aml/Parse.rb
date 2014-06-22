@@ -8,7 +8,7 @@ class Parse
 		@line << Line.new(bundle, :mixin_end, /^\}$/)
 		@line << Line.new(bundle, :partial, /^(\s{1,})?%\(\~((?<bundle>[\w|\-]+)\.)?(?<name>[\w|\-]+)\)(\{(?<attribute>.+)\}[^\{]?)?$/)
 		@line << Line.new(bundle, :tag, /^(\s{1,})?(?<!%)%(?<close>\/{0,2})?(?<name>[\w|\-]+)(\#(?<id_first>[\w|\-]+))?(\.(?<class>[\w|\-|\.]+))?(\#(?<id_last>[\w|\-]+))?(?<reset>\*{1,})?(\{(?<attribute>.+)\})?(?<text>.+)?$/)
-		@line << Line.new(bundle, :tag_shorthand, /^(\s{1,})?(?=[#|\.|\/])(?<close>\/{0,2})?(\#(?<id_first>[\w|\-]+))?(\.(?<class>[\w|\-|\.]+))?(\#(?<id_last>[\w|\-]+))?(?<reset>\*{1,})?(\{(?<attribute>.+)\})?(?<text>.+)?$/)
+		@line << Line.new(bundle, :tag_shorthand, /^(\s{1,})?(?=[#|\.|\/])(\#(?<id_first>[\w|\-]+))?(\.(?<class>[\w|\-|\.]+))?(\#(?<id_last>[\w|\-]+))?(?<reset>\*{1,})?(?<close>\/{0,2})?(\{(?<attribute>.+)\})?(?<text>.+)?$/)
 		@line << Line.new(bundle, :conditional, /^(\s{1,})?-\s?(?<name>if|loop|end)(\s(?<value>.+))?$/)
 		@line << Line.new(bundle, :empty, /^$/)
 		@line << Line.new(bundle, :eval, /^(\s{1,})?==(\s{1,})(?<value>.+)?/)

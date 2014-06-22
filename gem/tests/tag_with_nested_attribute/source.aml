@@ -1,0 +1,10 @@
+%tag{:type=>'lorem',:data=>{:foo=>'foo', :bar=>'bar', :foobar=>{:barfoo=>'foobar'}}}
+#lorem{:type=>'lorem',:data=>{:foo=>'foo', :bar=>'bar', :foobar=>{:barfoo=>'foobar'}}}
+.lorem{:type=>'lorem',:data=>{:foo=>'foo', :bar=>'bar', :foobar=>{:barfoo=>'foobar'}}}
+#lorem.ipsum{:type=>'lorem',:data=>{:foo=>'foo', :bar=>'bar', :foobar=>{:barfoo=>'foobar'}}}
+.lorem#ipsum{:type=>'lorem',:data=>{:foo=>'foo', :bar=>'bar', :foobar=>{:barfoo=>'foobar'}}}
+%/tag{:type=>'lorem',:data=>{:foo=>'foo', :bar=>'bar', :foobar=>{:barfoo=>'foobar'}}}
+#lorem/{:type=>'lorem',:data=>{:foo=>'foo', :bar=>'bar', :foobar=>{:barfoo=>'foobar'}}}
+.lorem/{:type=>'lorem',:data=>{:foo=>'foo', :bar=>'bar', :foobar=>{:barfoo=>'foobar'}}}
+#lorem.ipsum/{:type=>'lorem',:data=>{:foo=>'foo', :bar=>'bar', :foobar=>{:barfoo=>'foobar'}}}
+.lorem#ipsum/{:type=>'lorem',:data=>{:foo=>'foo', :bar=>'bar', :foobar=>{:barfoo=>'foobar'}}}

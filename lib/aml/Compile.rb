@@ -66,6 +66,19 @@ class Compile
 		definition.self[:hash][index] = process_variable_line(line, definition)
 		definition.self[:hash][index] = process_method_line(line, definition) if methods
 	end
+
+	def recursive_attribute_replace_variable(attributes, line, definition)
+		attributes.each do |attribute, value|
+			if value.is_a? Hash
+				value = recursive_attribute_replace_variable(value, line, definition)
+			else
+				value = process_variable_find(value.to_s, line, definition)
+			end
+			attributes[attribute] = value
+		end
+		attributes
+	end
+
 	def process_variable_line(line, definition)
 		if line[:type] == :string
 			line[:value] = process_variable_find(line[:value], line, definition)
@@ -74,14 +87,25 @@ class Compile
 		else
 			line[:text] = process_variable_find(line[:text], line, definition)
 			line[:value] = process_variable_find(line[:value], line, definition)
-			if line.key? :attribute != nil
-				line[:attribute].each do|k,v|
-					line[:attribute][k] = process_variable_find(v, line, definition)
-				end
+			if line.key? :attribute and line[:attribute].count > 0
+				line[:attribute] = recursive_attribute_replace_variable(line[:attribute], line, definition)
 			end
 		end
 		line
 	end
+
+	def recursive_attribute_replace_method(attributes, line)
+		attributes.each do |attribute, value|
+			if value.is_a? Hash
+				value = recursive_attribute_replace_method(value, line)
+			else
+				value = process_method_find(value.to_s, line)
+			end
+			attributes[attribute] = value
+		end
+		attributes
+	end
+
 	def process_method_line(line, definition)
 		if line[:type] == :string
 			line[:value] = process_method_find(line[:value], line)
@@ -89,10 +113,8 @@ class Compile
 			line = parse.line("#{"\t" * line[:index]}#{line[:value]}",line[:number])
 		else
 			line[:text] = process_method_find(line[:text], line)
-			if line.key? :attribute != nil
-				line[:attribute].each do|k,v|
-					line[:attribute][k] = process_method_find(v, line)
-				end
+			if line.key? :attribute and line[:attribute].count > 0
+				line[:attribute] = recursive_attribute_replace_method(line[:attribute],line)
 			end
 		end
 		line
@@ -167,19 +189,31 @@ class Compile
 			return false
 		end
 	end
+
+	def recursive_attribute_replace_attribute(attributes, mixin)
+		attributes.each do |attribute, value|
+			if value.is_a? Hash
+				value = recursive_attribute_replace_attribute(value, mixin)
+			else
+				value = process_attribute_find(value.to_s, mixin)
+			end
+			attributes[attribute] = value
+		end
+		attributes
+	end
+
 	def process_attribute(line, mixin)
 		if line[:type] == :string
 			line[:value] = process_attribute_find(line[:value], mixin[:attribute])
 		else
 			line[:text] = process_attribute_find(line[:text], mixin[:attribute])
 			if line[:attribute] != nil
-				line[:attribute].each do|k,v|
-					line[:attribute][k] = process_attribute_find(v, mixin[:attribute])
-				end
+				line[:attribute] = recursive_attribute_replace_attribute(line[:attribute],mixin[:attribute])
 			end
 		end
 		line
 	end
+
 	def process_attribute_find(string, attribute)
 		regex = @inline.select{|k|k[:type] == :attribute}[0][:regex]
 		string = string.to_s.gsub(regex).each do
@@ -206,7 +240,7 @@ class Compile
 		partial = Definition.new(File.join(@argument.get('path'),path,line[:name]+'.aml'), line[:type].to_s, line[:bundle])
 		partial.self[:hash].each_with_index do |line, index|
 			line[:number] = partial_number
-			line = process_attribute(line, {:attribute=>patrial_attribute})
+			line = process_attribute(line, {:attribute=>patrial_attribute}) if patrial_attribute.count > 0
 			line = process_variable_line(line, definition)
 		end
 		partial.self[:hash].each do|line|
