@@ -2,9 +2,9 @@ class Core
 
 	@words = %w[a ac accumsan adipiscing aenean aliquam aliquet amet ante arcu at auctor augue bibendum blandit commodo condimentum congue consectetur consequat convallis cras curabitur cursus dapibus diam dictum dictumst dignissim dis dolor donec dui duis egestas eget eleifend elementum elit enim erat eros est et etiam eu euismod facilisi facilisis fames faucibus felis fermentum feugiat fringilla fusce gravida habitasse hac hendrerit iaculis id imperdiet in integer interdum ipsum justo lacinia lacus laoreet lectus leo libero ligula lobortis lorem luctus maecenas magna magnis malesuada massa mattis mauris metus mi molestie mollis montes morbi mus nam nascetur natoque nec neque nibh nisi nisl non nulla nullam nunc odio orci ornare parturient pellentesque penatibus pharetra phasellus placerat platea porta porttitor posuere potenti praesent pretium primis proin pulvinar purus quam quis quisque rhoncus risus rutrum sagittis sapien scelerisque sed sem semper sit sociis sodales sollicitudin suscipit suspendisse tellus tempor tempus tincidunt tortor tristique turpis ullamcorper ultrices ultricies urna ut varius vehicula vel velit venenatis vestibulum vitae vivamus viverra volutpat vulputate werumensium xiphias]
 
-	def self.rand(index=0, a={}, d={:min=>'1', :max=>'10'})
-		offset = 1 if a[:min] == 0
-		return rand(a[:max]+offset)+a[:min]
+	def self.randrange(index=0, a={}, d={:min=>'1', :max=>'10'})
+		a = d.merge(a)
+		return rand(a[:min].to_i..a[:max].to_i)
 	end
 
 	def self.date(index=0, a={}, d={:format=>'%Y-%m-%d %H:%M:%S'})
